@@ -11,25 +11,6 @@ class ButtonPage extends StatelessWidget {
         body: ListView(
           children: [
             Container(
-              padding: const EdgeInsets.only(left: 25, right: 15),
-              child: const TextField(
-                decoration: InputDecoration(
-                  border: UnderlineInputBorder(),
-                  labelText: 'SampleFirld One',
-                  hintText: 'Enter Password',
-                ),
-              ),
-            ),
-            Container(
-              padding: const EdgeInsets.only(top: 25, left: 25, right: 15),
-              child: const TextField(
-                decoration: InputDecoration(
-                  border: OutlineInputBorder(),
-                  labelText: 'SampleFirld One',
-                ),
-              ),
-            ),
-            Container(
               padding: const EdgeInsets.only(top: 15),
               child: TextButton(
                 onPressed: () {},
@@ -43,6 +24,14 @@ class ButtonPage extends StatelessWidget {
                 child: const Text('ElevatedButton'),
               ),
             ),
+            Container(
+              padding: const EdgeInsets.only(left: 90, right: 90, top: 12),
+              child: OutlinedButton(
+                onPressed: () {},
+                child: const Text('OutlinedButton'),
+              ),
+            ),
+            Image.asset('images/sample.jpeg')
           ],
         ),
       ),

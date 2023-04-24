@@ -1,4 +1,8 @@
+import 'form.dart';
+import 'list.dart';
+import 'fields.dart';
 import 'button.dart';
+import 'selectButton.dart';
 import 'package:flutter/material.dart';
 
 void main() => {runApp(const MyApp())};
@@ -14,10 +18,20 @@ class MyApp extends StatelessWidget {
       //   title: const Text('Sample'),
       // ),
 
-      home: Scaffold(
+      home: DefaultTabController(
+        length: 5,
+        child: Scaffold(
           appBar: AppBar(
             centerTitle: true,
-            title: const Text('Button'),
+            title: const Text('Sample'),
+            bottom: const TabBar(tabs: [
+              Tab(icon: Icon(Icons.text_fields), text: "InputFields"),
+              Tab(icon: Icon(Icons.tab_outlined), text: "Alert"),
+              Tab(icon: Icon(Icons.smart_button_outlined), text: "Button"),
+              Tab(icon: Icon(Icons.list), text: "ListView"),
+              // Tab(icon: Icon(Icons.list_alt_sharp), text: "LongListView"),
+              Tab(icon: Icon(Icons.smart_button), text: "Button"),
+            ]),
           ),
           drawer: Drawer(
             child: ListView(
@@ -47,11 +61,39 @@ class MyApp extends StatelessWidget {
               ],
             ),
           ),
-          body: const ButtonPage(),
+          body: const TabBarView(
+            children: [
+              FieldsView(),
+              FormWigets(),
+              ButtonPage(),
+              ListBulid(),
+              SelectButton(),
+              // LongListView(
+              //   sampleText: ['Sample Text1', 'Sample Text2'],
+              //   // sampleText: List<String>.generate(50, (i) => "Product List: $i"),
+              // ),
+            ],
+          ),
           floatingActionButton: FloatingActionButton(
             onPressed: () {},
             child: const Icon(Icons.add),
-          )),
+          ),
+          // floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+          // bottomNavigationBar: BottomNavigationBar(
+          //   items: const [
+          //     BottomNavigationBarItem(
+          //       icon: Icon(Icons.home),
+          //     ),
+          //     BottomNavigationBarItem(
+          //       icon: Icon(Icons.search),
+          //     ),
+          //     BottomNavigationBarItem(
+          //       icon: Icon(Icons.account_circle),
+          //     ),
+          //   ],
+          // ),
+        ),
+      ),
     );
   }
 }
