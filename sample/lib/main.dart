@@ -1,8 +1,10 @@
 import 'form.dart';
 import 'list.dart';
+import 'radio.dart';
 import 'fields.dart';
 import 'button.dart';
-import 'selectButton.dart';
+import 'checkBox.dart';
+import 'package:sample/tryGrid.dart';
 import 'package:flutter/material.dart';
 
 void main() => {runApp(const MyApp())};
@@ -13,13 +15,14 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowMaterialGrid: false,
       debugShowCheckedModeBanner: false,
       // home: AppBar(
       //   title: const Text('Sample'),
       // ),
 
       home: DefaultTabController(
-        length: 5,
+        length: 7,
         child: Scaffold(
           appBar: AppBar(
             centerTitle: true,
@@ -29,8 +32,11 @@ class MyApp extends StatelessWidget {
               Tab(icon: Icon(Icons.tab_outlined), text: "Alert"),
               Tab(icon: Icon(Icons.smart_button_outlined), text: "Button"),
               Tab(icon: Icon(Icons.list), text: "ListView"),
+              Tab(icon: Icon(Icons.grid_3x3_rounded), text: "GridView"),
+              Tab(icon: Icon(Icons.check_box), text: "CheckBox"),
+              Tab(icon: Icon(Icons.radio_button_checked), text: "RadioButton"),
               // Tab(icon: Icon(Icons.list_alt_sharp), text: "LongListView"),
-              Tab(icon: Icon(Icons.smart_button), text: "Button"),
+              // Tab(icon: Icon(Icons.smart_button), text: "Button"),
             ]),
           ),
           drawer: Drawer(
@@ -40,23 +46,16 @@ class MyApp extends StatelessWidget {
                   child: Text('Text1'),
                 ),
                 ListTile(
-                  title: Text('1'),
+                  leading: Icon(Icons.person),
+                  title: Text('Profile'),
                 ),
                 ListTile(
-                  title: Text("All Mail Inboxes"),
-                  leading: Icon(Icons.mail),
-                ),
-                Divider(
-                  height: 0.2,
+                  leading: Icon(Icons.chat_rounded),
+                  title: Text('Message'),
                 ),
                 ListTile(
-                  title: Text("Primary"),
-                ),
-                ListTile(
-                  title: Text("Social"),
-                ),
-                ListTile(
-                  title: Text("Promotions"),
+                  leading: Icon(Icons.settings),
+                  title: Text('Settings'),
                 ),
               ],
             ),
@@ -67,31 +66,15 @@ class MyApp extends StatelessWidget {
               FormWigets(),
               ButtonPage(),
               ListBulid(),
-              SelectButton(),
-              // LongListView(
-              //   sampleText: ['Sample Text1', 'Sample Text2'],
-              //   // sampleText: List<String>.generate(50, (i) => "Product List: $i"),
-              // ),
+              viewGridList(),
+              CheckBoxView(),
+              ButtonRadio()
             ],
           ),
           floatingActionButton: FloatingActionButton(
             onPressed: () {},
             child: const Icon(Icons.add),
           ),
-          // floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-          // bottomNavigationBar: BottomNavigationBar(
-          //   items: const [
-          //     BottomNavigationBarItem(
-          //       icon: Icon(Icons.home),
-          //     ),
-          //     BottomNavigationBarItem(
-          //       icon: Icon(Icons.search),
-          //     ),
-          //     BottomNavigationBarItem(
-          //       icon: Icon(Icons.account_circle),
-          //     ),
-          //   ],
-          // ),
         ),
       ),
     );

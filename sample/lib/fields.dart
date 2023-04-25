@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+
 
 class FieldsView extends StatelessWidget {
   const FieldsView({super.key});
@@ -12,21 +14,25 @@ class FieldsView extends StatelessWidget {
           child: const TextField(
             decoration: InputDecoration(
               border: UnderlineInputBorder(),
-              labelText: 'SampleFirld One',
-              hintText: 'Enter Password',
+              labelText: 'SampleField One',
+              hintText: 'Sample field',
             ),
           ),
         ),
         Container(
           padding: const EdgeInsets.only(top: 25, left: 25, right: 15),
-          child: const TextField(
-            decoration: InputDecoration(
+          child: TextField(
+            decoration: const InputDecoration(
               border: OutlineInputBorder(),
               labelText: 'SampleFirld One',
             ),
+            keyboardType: TextInputType.number,
+            inputFormatters: <TextInputFormatter>[
+              FilteringTextInputFormatter.digitsOnly
+            ],
+            maxLength: 10,
           ),
         ),
-        
       ]),
     );
   }

@@ -33,20 +33,20 @@ class ListBulid extends StatelessWidget {
   }
 }
 
-class LongListView extends StatelessWidget {
-  final List<String> sampleText;
+// class LongListView extends StatelessWidget {
+//   final List<String> sampleText;
 
-  const LongListView({required this.sampleText});
+//   const LongListView({required this.sampleText});
 
-  @override
-  Widget build(BuildContext context) {
-    return ListView.builder(
-      itemCount: sampleText.length,
-      itemBuilder: (context, index) {
-        return ListTile(
-          title: Text(sampleText[index]),
-        );
-      },
-    );
-  }
-}
+//   @override
+//   Widget build(BuildContext context) {
+//     return ListView.builder(
+//       itemCount: sampleText.length,
+//       itemBuilder: (context, index) {
+//         return ListTile(
+//           title: Text(sampleText[index]),
+//         );
+//       },
+//     );
+//   }
+// }

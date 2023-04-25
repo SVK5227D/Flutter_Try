@@ -6,13 +6,22 @@ class Cardmsg extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
-      color: Colors.grey,
+      color: const Color.fromARGB(255, 216, 215, 215),
       child: Column(
         mainAxisSize: MainAxisSize.max,
-        children: const [
-          ListTile(
-            title: Text('Sample Card'),
+        children: [
+          TextFormField(
+            decoration: const InputDecoration(
+                border: OutlineInputBorder(),
+                icon: Icon(Icons.contact_page),
+                hintText: 'Enter the input field',
+                hintStyle: TextStyle(fontWeight: FontWeight.bold),
+                labelText: 'InputField3',
+                labelStyle: TextStyle(fontWeight: FontWeight.bold)),
           )
+          // ListTile(
+          //   title: Text('Sample Card'),
+          // )
         ],
       ),
     );
