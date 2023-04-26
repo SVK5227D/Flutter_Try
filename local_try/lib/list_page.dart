@@ -9,7 +9,6 @@ class Viewdata extends StatefulWidget {
 }
 
 class _ViewdataState extends State<Viewdata> {
-  
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -18,6 +17,9 @@ class _ViewdataState extends State<Viewdata> {
         appBar: AppBar(
           title: const Text('Data List'),
           centerTitle: true,
+        ),
+        body: ListView.builder(
+          itemBuilder: (context, index) {},
         ),
         floatingActionButton: FloatingActionButton(
           onPressed: () {

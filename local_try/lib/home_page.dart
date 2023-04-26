@@ -1,7 +1,9 @@
+import 'list_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
 // ignore_for_file: avoid_print
 // ignore_for_file: unused_import
 // ignore_for_file: depend_on_referenced_packages
@@ -15,9 +17,6 @@ class MainPage extends StatefulWidget {
 
 class _MainPageState extends State<MainPage> {
   TextEditingController nameController = TextEditingController();
-  TextEditingController passwordController = TextEditingController();
-  TextEditingController emailController = TextEditingController();
-  TextEditingController numberController = TextEditingController();
 
   List form = [];
 
@@ -42,56 +41,11 @@ class _MainPageState extends State<MainPage> {
                 controller: nameController,
                 decoration: const InputDecoration(
                   border: OutlineInputBorder(),
-                  labelText: 'Name',
+                  labelText: 'Task',
                   labelStyle: TextStyle(fontWeight: FontWeight.bold),
                   hintStyle: TextStyle(fontWeight: FontWeight.bold),
-                  hintText: 'Enter the your name',
+                  hintText: 'Enter task to add',
                 ),
-              ),
-            ),
-            Container(
-              padding: const EdgeInsets.only(top: 15, left: 50, right: 50),
-              child: TextField(
-                obscureText: true,
-                controller: passwordController,
-                decoration: const InputDecoration(
-                  border: OutlineInputBorder(),
-                  labelText: 'Password',
-                  labelStyle: TextStyle(fontWeight: FontWeight.bold),
-                  hintStyle: TextStyle(fontWeight: FontWeight.bold),
-                  hintText: 'Enter the your paswword',
-                ),
-              ),
-            ),
-            Container(
-              padding: const EdgeInsets.only(top: 15, left: 50, right: 50),
-              child: TextField(
-                controller: emailController,
-                decoration: const InputDecoration(
-                  border: OutlineInputBorder(),
-                  labelText: 'Emailid',
-                  labelStyle: TextStyle(fontWeight: FontWeight.bold),
-                  hintStyle: TextStyle(fontWeight: FontWeight.bold),
-                  hintText: 'Enter the your emailid',
-                ),
-              ),
-            ),
-            Container(
-              padding: const EdgeInsets.only(top: 15, left: 50, right: 50),
-              child: TextField(
-                controller: numberController,
-                decoration: const InputDecoration(
-                  border: OutlineInputBorder(),
-                  labelText: 'Mobile Number',
-                  labelStyle: TextStyle(fontWeight: FontWeight.bold),
-                  hintStyle: TextStyle(fontWeight: FontWeight.bold),
-                  hintText: 'Enter the your number',
-                ),
-                keyboardType: TextInputType.number,
-                inputFormatters: <TextInputFormatter>[
-                  FilteringTextInputFormatter.digitsOnly
-                ],
-                maxLength: 10,
               ),
             ),
             Container(
@@ -99,28 +53,23 @@ class _MainPageState extends State<MainPage> {
               child: ElevatedButton(
                 onPressed: () {
                   String name = nameController.text.trim();
-                  String password = passwordController.text.trim();
-                  String email = emailController.text.trim();
-                  String number = numberController.text.trim();
                   nameController.text = '';
-                  passwordController.text = '';
-                  emailController.text = '';
-                  numberController.text = '';
-                  if (((name.isNotEmpty && password.isNotEmpty) &&
-                      (email.isNotEmpty && number.isNotEmpty))) {
-                    form.add({
-                      'name': name,
-                      'password': password,
-                      'email': email,
-                      'number': number
-                    });
+                  if (name.isNotEmpty) {
+                    form.add(name);
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (contex) => const Viewdata(),
+                      ),
+                    );
                   } else {
                     Fluttertoast.showToast(
-                        msg: 'Some fields are empty',
-                        timeInSecForIosWeb: 2,
+                        msg: 'Field is Empty',
                         gravity: ToastGravity.CENTER,
-                        fontSize: 15);
+                        fontSize: 25,
+                        backgroundColor: Colors.red);
                   }
+
                   print(form);
                 },
                 child: const Text('Save', style: TextStyle(fontSize: 18)),
