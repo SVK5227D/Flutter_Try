@@ -35,8 +35,6 @@ class MyApp extends StatelessWidget {
               Tab(icon: Icon(Icons.grid_3x3_rounded), text: "GridView"),
               Tab(icon: Icon(Icons.check_box), text: "CheckBox"),
               Tab(icon: Icon(Icons.radio_button_checked), text: "RadioButton"),
-              // Tab(icon: Icon(Icons.list_alt_sharp), text: "LongListView"),
-              // Tab(icon: Icon(Icons.smart_button), text: "Button"),
             ]),
           ),
           drawer: Drawer(

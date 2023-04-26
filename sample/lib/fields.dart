@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-
 class FieldsView extends StatelessWidget {
   const FieldsView({super.key});
 
@@ -20,7 +19,7 @@ class FieldsView extends StatelessWidget {
           ),
         ),
         Container(
-          padding: const EdgeInsets.only(top: 25, left: 25, right: 15),
+          padding: const EdgeInsets.only(top: 0, left: 25, right: 15),
           child: TextField(
             decoration: const InputDecoration(
               border: OutlineInputBorder(),
