@@ -1,5 +1,7 @@
 import 'inputfield_button.dart';
 import 'package:flutter/material.dart';
+// ignore_for_file: must_be_immutable
+
 
 class InputField extends StatelessWidget {
   TextEditingController controller;
@@ -21,14 +23,18 @@ class InputField extends StatelessWidget {
         child: Column(
           children: [
             Container(
-              padding: const EdgeInsets.only(top: 85, left: 50, right: 50),
+              padding: const EdgeInsets.only(top: 55, left: 50, right: 50),
               child: TextField(
                 controller: controller,
                 decoration: const InputDecoration(
-                  border: OutlineInputBorder(),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.all(Radius.circular(20)),
+                  ),
                   labelText: 'Task',
-                  labelStyle: TextStyle(fontWeight: FontWeight.bold),
-                  hintStyle: TextStyle(fontWeight: FontWeight.bold),
+                  labelStyle:
+                      TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+                  hintStyle:
+                      TextStyle(fontWeight: FontWeight.w900, fontSize: 16),
                   hintText: 'Enter task to add',
                 ),
               ),

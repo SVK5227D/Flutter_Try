@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+// ignore_for_file: must_be_immutable
+
 
 class TaskList extends StatelessWidget {
   final String taskName;
@@ -15,7 +17,7 @@ class TaskList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
-      margin: const EdgeInsets.only(left: 55, right: 55, top: 25),
+      margin: const EdgeInsets.only(left: 30, right: 30, top: 30),
       color: Colors.teal[100],
       child: Row(
         children: [
@@ -24,6 +26,25 @@ class TaskList extends StatelessWidget {
             taskName,
             style: const TextStyle(fontSize: 20, fontWeight: FontWeight.w400),
           ),
+          // child: Row(
+          // children: [
+          //   IconButton(onPressed: () {}, icon: const Icon(Icons.edit)),
+          //   IconButton(onPressed: () {}, icon: const Icon(Icons.delete))
+          // ],
+          // )
+
+          Row(
+            children: [
+              IconButton(
+                onPressed: () {},
+                icon: const Icon(Icons.edit),
+              ),
+              IconButton(
+                onPressed: () {},
+                icon: const Icon(Icons.delete),
+              ),
+            ],
+          )
         ],
       ),
     );
