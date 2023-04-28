@@ -1,24 +1,24 @@
-import 'home_page.dart';
+import '../home_page.dart';
 import 'dynamic_field.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-// ignore_for_file: sort_child_properties_last
-
-// ignore_for_file: avoid_print
-// ignore_for_file: unused_import
-// ignore_for_file: depend_on_referenced_packages
+// ignore_for_file: prefer_typing_uninitialized_variables
+// ignore_for_file: no_logic_in_create_state
 
 class AddTaskPage extends StatefulWidget {
-  const AddTaskPage({super.key});
+  final nameController;
+  VoidCallback onsave;
+  AddTaskPage({super.key, required this.nameController, required this.onsave});
 
   @override
-  State<AddTaskPage> createState() => _AddTaskPageState();
+  State<AddTaskPage> createState() =>
+      _AddTaskPageState(nameController: nameController, onsave: onsave);
 }
 
 class _AddTaskPageState extends State<AddTaskPage> {
-  TextEditingController nameController = TextEditingController();
-
-  List form = [];
+  final nameController;
+  VoidCallback onsave;
+  _AddTaskPageState({required this.nameController,required this.onsave});
   List fieldList = [];
   addListField() {
     if (fieldList.length < 3) {
@@ -52,23 +52,23 @@ class _AddTaskPageState extends State<AddTaskPage> {
               child: Column(
                 children: [
                   Container(
-                    padding:
-                        const EdgeInsets.only(top: 85, left: 50, right: 50),
+                      padding:
+                          const EdgeInsets.only(top: 85, left: 50, right: 50),
                     child: TextField(
                       controller: nameController,
-                      decoration: InputDecoration(
-                        border: const OutlineInputBorder(),
+                      decoration: const InputDecoration(
+                        border: OutlineInputBorder(),
                         labelText: 'Task',
-                        labelStyle:
-                            const TextStyle(fontWeight: FontWeight.bold),
-                        hintStyle: const TextStyle(fontWeight: FontWeight.bold),
+                        labelStyle: TextStyle(fontWeight: FontWeight.bold),
+                        hintStyle: TextStyle(fontWeight: FontWeight.bold),
                         hintText: 'Enter task to add',
-                        suffixIcon: IconButton(
-                          onPressed: () {
-                            addListField();
-                          },
-                          icon: const Icon(Icons.add),
-                        ),
+                        // suffixIcon: IconButton(
+                        //   onPressed: () {
+                        //     addListField();
+                        //   },
+                        //   icon: const Icon(Icons.add),
+                        // ),
+                        
                       ),
                     ),
                   ),
@@ -89,13 +89,16 @@ class _AddTaskPageState extends State<AddTaskPage> {
                   String name = nameController.text.trim();
                   nameController.text = '';
                   if (name.isNotEmpty) {
-                    form.add(name);
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (contex) => const Viewdata(),
-                      ),
-                    );
+                    // form.add(name);
+                    // Navigator.push(
+                    //   context,
+                    //   MaterialPageRoute(
+                    //     builder: (context) {
+                          
+                    //     },
+                    //   ),
+                    // );
+                    onsave;
                   } else {
                     Fluttertoast.showToast(
                         msg: 'Field is Empty',
@@ -103,7 +106,6 @@ class _AddTaskPageState extends State<AddTaskPage> {
                         fontSize: 25,
                         backgroundColor: Colors.red);
                   }
-                  print(form);
                 },
                 child: const Text('Save', style: TextStyle(fontSize: 18)),
               ),
