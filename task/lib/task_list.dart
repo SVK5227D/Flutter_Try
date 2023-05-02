@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 // ignore_for_file: must_be_immutable
 
-
 class TaskList extends StatelessWidget {
   final String taskName;
   final bool taskStatus;
@@ -36,11 +35,15 @@ class TaskList extends StatelessWidget {
           Row(
             children: [
               IconButton(
-                onPressed: () {},
+                onPressed: () {
+                  print("edit");
+                },
                 icon: const Icon(Icons.edit),
               ),
               IconButton(
-                onPressed: () {},
+                onPressed: () {
+                  print("Delete");
+                },
                 icon: const Icon(Icons.delete),
               ),
             ],

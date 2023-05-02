@@ -2,7 +2,6 @@ import 'inputfield_button.dart';
 import 'package:flutter/material.dart';
 // ignore_for_file: must_be_immutable
 
-
 class InputField extends StatelessWidget {
   TextEditingController controller;
   VoidCallback saveInput;
@@ -44,12 +43,9 @@ class InputField extends StatelessWidget {
               children: [
                 // save button
                 MyButton(text: "Save", onPressed: saveInput),
-
                 const SizedBox(width: 8),
-
                 // cancel button
                 MyButton(text: "Cancel", onPressed: closeField),
-
                 const SizedBox(width: 50),
               ],
             ),

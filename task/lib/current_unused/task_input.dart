@@ -1,6 +1,6 @@
 import 'dynamic_field.dart';
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
+// import 'package:fluttertoast/fluttertoast.dart';
 // ignore_for_file: must_be_immutable
 
 // ignore_for_file: prefer_typing_uninitialized_variables
@@ -26,11 +26,11 @@ class _AddTaskPageState extends State<AddTaskPage> {
       fieldList.add(const InputField());
       setState(() {});
     } else {
-      Fluttertoast.showToast(
-          msg: 'Morethan four input field blocked',
-          gravity: ToastGravity.CENTER,
-          fontSize: 25,
-          backgroundColor: Colors.red);
+      // Fluttertoast.showToast(
+      //     msg: 'Morethan four input field blocked',
+      //     gravity: ToastGravity.CENTER,
+      //     fontSize: 25,
+      //     backgroundColor: Colors.red);
     }
   }
 
@@ -101,11 +101,11 @@ class _AddTaskPageState extends State<AddTaskPage> {
                     // );
                     onsave;
                   } else {
-                    Fluttertoast.showToast(
-                        msg: 'Field is Empty',
-                        gravity: ToastGravity.CENTER,
-                        fontSize: 25,
-                        backgroundColor: Colors.red);
+                    // Fluttertoast.showToast(
+                    //     msg: 'Field is Empty',
+                    //     gravity: ToastGravity.CENTER,
+                    //     fontSize: 25,
+                    //     backgroundColor: Colors.red);
                   }
                 },
                 child: const Text('Save', style: TextStyle(fontSize: 18)),
