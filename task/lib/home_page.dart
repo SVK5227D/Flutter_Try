@@ -1,7 +1,10 @@
-import 'task_list.dart';
+import 'data.dart';
 import 'input_field.dart';
 import 'package:flutter/material.dart';
-// import 'package:fluttertoast/fluttertoast.dart';
+import 'package:hive_flutter/hive_flutter.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+
+// ignore_for_file: unused_element
 
 class Viewdata extends StatefulWidget {
   const Viewdata({super.key});
@@ -10,37 +13,75 @@ class Viewdata extends StatefulWidget {
 }
 
 class _ViewdataState extends State<Viewdata> {
-  final _controller = TextEditingController();
-  List taskInput = [
-    ["Task1", false],
-    ["Task2", false],
-  ];
+  // Hive
+  final _taskBox = Hive.box('taskBox');
+  TaskDataBase db = TaskDataBase();
 
-  void checkBoxChange(bool? value, int index) {
-    setState(() {
-      taskInput[index][1] = !taskInput[index][1];
-    });
+  final _controller = TextEditingController();
+  // List<dynamic> taskInput = ["Task1", "Task2"];
+  List _foundToDo = [];
+  late int editTextCalled;
+  bool isEditing = false;
+  @override
+  void initState() {
+    if (_taskBox.get("TASKINPUT") == null) {
+      db.createFirstData();
+    } else {
+      db.loadData();
+    }
+    _foundToDo = db.taskInput;
+    super.initState();
   }
 
   void saveTaskList() {
-    if (_controller.text.isEmpty) {
-      // Fluttertoast.showToast(
-      //   msg: 'Field is Empty',
-      //   gravity: ToastGravity.CENTER,
-      //   fontSize: 25,
-      //   backgroundColor: Colors.red,
-      // );
-    } else {
-      setState(() {
-        taskInput.add(
-          [_controller.text, false],
+    // Checking the value is duplicate or not
+    if (db.taskInput.contains(_controller.text)) {
+      Fluttertoast.showToast(
+        msg: 'Value already entered',
+        gravity: ToastGravity.CENTER,
+        fontSize: 25,
+        backgroundColor: Colors.red,
+      );
+    }
+    // if the value not duplicate adding the value to list
+    else {
+      if (_controller.text.trim().isNotEmpty) {
+        // if the task will be edit
+        if (isEditing == true) {
+          updateTask();
+        } else {
+          setState(() {
+            db.taskInput.add(_controller.text);
+            _controller.text = '';
+            Navigator.of(context).pop();
+          });
+          db.updateData();
+        }
+      }
+      // Checking the input is empty or not
+      else {
+        Fluttertoast.showToast(
+          msg: 'Field is Empty',
+          gravity: ToastGravity.CENTER,
+          fontSize: 25,
+          backgroundColor: Colors.red,
         );
-      });
-      _controller.text = '';
-      Navigator.of(context).pop();
+      }
     }
   }
 
+  // Update the value after edit function is called
+  updateTask() {
+    setState(() {
+      db.taskInput[editTextCalled] = _controller.text;
+      isEditing = false;
+      Navigator.of(context).pop();
+      _controller.text = '';
+    });
+    db.updateData();
+  }
+
+  // Calling the input field
   void addNewTask() {
     showDialog(
       context: context,
@@ -50,9 +91,42 @@ class _ViewdataState extends State<Viewdata> {
           saveInput: saveTaskList,
           closeField: () => Navigator.of(context).pop(),
         );
-        // print(taskInput.length);
       },
     );
+  }
+
+  // Search the task filter by using input value
+  void _filterTodo(String searchValue) {
+    List<dynamic> searchResult = [];
+    if (searchValue.isEmpty) {
+      searchResult = db.taskInput;
+    } else {
+      searchResult = db.taskInput
+          .where(
+              (item) => item.toLowerCase().contains(searchValue.toLowerCase()))
+          .toList();
+    }
+    setState(() {
+      _foundToDo = searchResult;
+    });
+  }
+
+  // Edit function
+  void editText(index) {
+    setState(() {
+      _controller.text = db.taskInput[index];
+      isEditing = true;
+      editTextCalled = index;
+    });
+  }
+
+  // Removing the task for list
+  void _deleteToDoItem(int id) {
+    setState(() {
+      db.taskInput.removeWhere((item) => item.id == id);
+      db.updateData();
+    });
+    // db.updateData();
   }
 
   @override
@@ -63,32 +137,56 @@ class _ViewdataState extends State<Viewdata> {
         appBar: AppBar(
           title: const Text('Data List'),
           centerTitle: true,
-          actions: [
-            IconButton(
-              onPressed: () {
-                showSearch(context: context, delegate: TaskSearch(taskInput));
-              },
-              icon: const Icon(Icons.search),
-            )
+        ),
+        body: Column(
+          children: [
+            // Search Box
+            searchBox(),
+            Expanded(
+              // Showing the task using list View
+              child: ListView.builder(
+                itemCount: _foundToDo.length,
+                itemBuilder: (context, index) {
+                  return Card(
+                    margin: const EdgeInsets.only(left: 30, right: 30, top: 30),
+                    color: Colors.teal[100],
+                    child: Row(
+                      children: [
+                        const Padding(padding: EdgeInsets.only(left: 25)),
+                        Text(
+                          _foundToDo[index],
+                          style: const TextStyle(
+                              fontSize: 20, fontWeight: FontWeight.w400),
+                        ),
+                        Row(
+                          children: [
+                            IconButton(
+                              onPressed: () {
+                                // Changing the task name
+                                editText(index);
+                              },
+                              icon: const Icon(Icons.edit),
+                            ),
+                            IconButton(
+                              onPressed: () {
+                                //remove the item at the current index
+                                setState(() {
+                                  db.taskInput.removeAt(index);
+                                });
+                              },
+                              icon: const Icon(Icons.delete),
+                            ),
+                          ],
+                        )
+                      ],
+                    ),
+                  );
+                },
+              ),
+            ),
           ],
         ),
-
-        // actions: [
-        //   IconButton(
-        //     onPressed: () {},
-        //     icon: const Icon(Icons.search),
-        //   )
-        // ],
-        body: ListView.builder(
-          itemCount: taskInput.length,
-          itemBuilder: (context, index) {
-            return TaskList(
-              taskName: taskInput[index][0],
-              taskStatus: taskInput[index][1],
-              onchange: (value) => checkBoxChange(value, index),
-            );
-          },
-        ),
+        // Button to add new task
         floatingActionButton: FloatingActionButton(
           onPressed: addNewTask,
           child: const Icon(Icons.add),
@@ -96,51 +194,29 @@ class _ViewdataState extends State<Viewdata> {
       ),
     );
   }
-}
 
-class TaskSearch extends SearchDelegate {
-  final List taskInput;
-  TaskSearch(this.taskInput);
-
-  // List search = taskInput;
-
-  @override
-  List<Widget>? buildActions(BuildContext context) => [
-        IconButton(
-            onPressed: () {
-              query = '';
-            },
-            icon: const Icon(Icons.clear))
-      ];
-
-  @override
-  Widget? buildLeading(BuildContext context) => IconButton(
-      onPressed: () {
-        if (query.isEmpty) {
-          close(context, null);
-        } else {
-          query = '';
-        }
-      },
-      icon: const Icon(Icons.arrow_back));
-
-  @override
-  Widget buildResults(BuildContext context) {
-    // TODO: implement buildResults
-    throw UnimplementedError();
-  }
-
-  @override
-  Widget buildSuggestions(BuildContext context) {
-    ListView.builder(
-      itemCount: taskInput.length,
-      itemBuilder: (context, index) {
-        final search = taskInput[index];
-        
-        return ListTile(
-          title: Text(taskInput[index][0]),
-        );
-      },
+  // Search field
+  Widget searchBox() {
+    return Container(
+      margin: const EdgeInsets.only(top: 20, left: 45, right: 45),
+      child: TextField(
+        onChanged: (value) => _filterTodo(value),
+        decoration: const InputDecoration(
+          border: OutlineInputBorder(),
+          contentPadding: EdgeInsets.all(0),
+          prefixIcon: Icon(
+            Icons.search,
+            color: Colors.grey,
+            size: 20,
+          ),
+          prefixIconConstraints: BoxConstraints(
+            maxHeight: 20,
+            minWidth: 25,
+          ),
+          hintText: 'Search',
+          hintStyle: TextStyle(color: Colors.grey),
+        ),
+      ),
     );
   }
 }
