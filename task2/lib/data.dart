@@ -1,20 +1,35 @@
 import 'package:hive_flutter/hive_flutter.dart';
 
 class TaskDataBase {
-  List input = [];
+  List<dynamic> taskInput = [];
+  List<Map<dynamic, dynamic>> taskMap = [];
   final _taskBox = Hive.box('taskBox');
   // Run while the app started
   createFirstData() {
-    input = ["Task1", "Task2"];
+    taskInput = [];
   }
 
   // Load data from local
   loadData() {
-    input = _taskBox.get("TASKINPUT");
+    taskInput = _taskBox.get("TASKINPUT");
+    // taskMap = _taskBox.get("TASKINPUT");
   }
 
   // Update the data
   void updateData() {
-    _taskBox.put("TASKINPUT", input);
+    _taskBox.put("TASKINPUT", taskInput);
+    // _taskBox.put("TASKINPUT", taskMap);
+  }
+
+  createFirstDataMap() {
+    taskMap = [];
+  }
+
+  loadDataMap() {
+    taskMap = _taskBox.get("TASKMAP");
+  }
+
+  void updateDataMap() {
+    _taskBox.put("TASKMAP", taskMap);
   }
 }

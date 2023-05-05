@@ -1,13 +1,10 @@
 import 'data.dart';
+import 'listvalue_table.dart';
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
-// ignore_for_file: must_be_immutable
-
 class MainPage extends StatefulWidget {
-  List<dynamic> input = [];
-  MainPage(
-    this.input, {
+  const MainPage({
     super.key,
   });
   @override
@@ -18,40 +15,56 @@ class _MainPageState extends State<MainPage> {
   var textChangeEdit = TextEditingController();
   late int editTextIndex;
   bool isEditing = false;
-  // Hive
+
+  // Getting value from database
   final _taskBox = Hive.box('taskBox');
-  TaskDataBase db = TaskDataBase();
+  TaskDataBase localDB = TaskDataBase();
+
+  @override
+  void initState() {
+    if (_taskBox.get("TASKINPUT") == null) {
+      localDB.createFirstData();
+      // localDB.createFirstDataMap();
+    } else {
+      localDB.loadData();
+      // localDB.loadDataMap();
+    }
+    // _foundToDo = localDB.taskInput;
+    super.initState();
+  }
 
   void _filterTodo(String searchValue) {
     List<dynamic> searchResult = [];
     if (searchValue.isEmpty) {
-      searchResult = widget.input;
+      searchResult = localDB.taskInput;
     } else {
-      searchResult = widget.input
+      searchResult = localDB.taskInput
           .where(
               (item) => item.toLowerCase().contains(searchValue.toLowerCase()))
           .toList();
     }
     setState(() {
-      widget.input = searchResult;
+      localDB.taskInput = searchResult;
     });
   }
 
   void editTextCall(index) {
     setState(() {
-      textChangeEdit.text = widget.input[index];
+      textChangeEdit.text = localDB.taskInput[index];
       isEditing = true;
       editTextIndex = index;
     });
+    print(localDB.taskInput.asMap());
   }
 
   void updateValue() {
     setState(() {
-      widget.input[editTextIndex] = textChangeEdit.text;
+      localDB.taskInput[editTextIndex] = textChangeEdit.text;
       isEditing = false;
       Navigator.of(context).pop();
       textChangeEdit.text = '';
     });
+    localDB.updateData();
   }
 
   @override
@@ -68,7 +81,7 @@ class _MainPageState extends State<MainPage> {
           Expanded(
             // Showing the task using editTextIndexlist View
             child: ListView.builder(
-              itemCount: widget.input.length,
+              itemCount: localDB.taskInput.length,
               itemBuilder: (context, index) {
                 return Card(
                   margin: const EdgeInsets.only(left: 30, right: 30, top: 30),
@@ -77,7 +90,7 @@ class _MainPageState extends State<MainPage> {
                     children: [
                       const Padding(padding: EdgeInsets.only(left: 25)),
                       Text(
-                        widget.input[index],
+                        localDB.taskInput[index],
                         style: const TextStyle(
                             fontSize: 20, fontWeight: FontWeight.w400),
                       ),
@@ -95,8 +108,9 @@ class _MainPageState extends State<MainPage> {
                             onPressed: () {
                               //remove the item at the current index
                               setState(() {
-                                widget.input.removeAt(index);
+                                localDB.taskInput.removeAt(index);
                               });
+                              localDB.updateData();
                             },
                             icon: const Icon(Icons.delete),
                           ),
@@ -111,8 +125,13 @@ class _MainPageState extends State<MainPage> {
         ],
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {},
-        child: const Icon(Icons.table_bar),
+        onPressed: () {
+          Navigator.of(context)
+              .push(MaterialPageRoute(builder: (BuildContext context) {
+            return const AllValueOrder();
+          }));
+        },
+        child: const Icon(Icons.table_chart),
       ),
     );
   }

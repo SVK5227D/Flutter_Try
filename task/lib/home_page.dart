@@ -41,10 +41,7 @@ class _ViewdataState extends State<Viewdata> {
         gravity: ToastGravity.CENTER,
         fontSize: 25,
         backgroundColor: Colors.red,
-      );
-    }
-    // if the value not duplicate adding the value to list
-    else {
+      );const Placeholder();
       if (_controller.text.trim().isNotEmpty) {
         // if the task will be edit
         if (isEditing == true) {

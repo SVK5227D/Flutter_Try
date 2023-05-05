@@ -1,5 +1,7 @@
+import 'data.dart';
 import 'list_data.dart';
 import 'package:flutter/material.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
 class InputField extends StatefulWidget {
@@ -10,32 +12,64 @@ class InputField extends StatefulWidget {
 }
 
 class _InputField extends State<InputField> {
+  // Hive
+  final _taskBox = Hive.box('taskBox');
+  TaskDataBase localDB = TaskDataBase();
+
+  @override
+  void initState() {
+    if (_taskBox.get("TASKINPUT") == null) {
+      localDB.createFirstData();
+      // localDB.createFirstDataMap();
+    } else {
+      localDB.loadData();
+      // localDB.loadDataMap();
+    }
+    super.initState();
+  }
+
   final inputFieldOne = TextEditingController();
   final inputFieldTwo = TextEditingController();
   final inputFieldThree = TextEditingController();
   final inputFieldFour = TextEditingController();
 
-  List inputValue = [];
+  // List localDB.taskInput = [];
 
   addTask() {
-    inputValue.add(inputFieldOne.text);
-    inputValue.add(inputFieldTwo.text);
-    inputValue.add(inputFieldThree.text);
-    inputValue.add(inputFieldFour.text);
-    inputFieldOne.text = '';
-    inputFieldTwo.text = '';
-    inputFieldThree.text = '';
-    inputFieldFour.text = '';
-    return Navigator.of(context)
-        .push(MaterialPageRoute(builder: (BuildContext context) {
-      return MainPage(inputValue);
-    }));
-    // return showDialog(
-    //   context: context,
-    //   builder: (context) {
-    //     return MainPage(inputValue);
-    //   },
-    // );
+    if (inputFieldOne.text.trim().isEmpty &&
+        inputFieldTwo.text.trim().isEmpty &&
+        inputFieldThree.text.trim().isEmpty &&
+        inputFieldFour.text.trim().isEmpty) {
+      Fluttertoast.showToast(
+        msg: 'Field is Empty',
+        gravity: ToastGravity.CENTER,
+        fontSize: 25,
+        backgroundColor: Colors.red,
+      );
+    } else {
+      localDB.taskInput.add(inputFieldOne.text);
+      localDB.taskInput.add(inputFieldTwo.text);
+      localDB.taskInput.add(inputFieldThree.text);
+      localDB.taskInput.add(inputFieldFour.text);
+      localDB.updateData();
+      localDB.taskMap.addAll([
+        {
+          "input1": inputFieldOne.text,
+          "input2": inputFieldTwo.text,
+          "input3": inputFieldThree.text,
+          "input4": inputFieldFour.text,
+        },
+      ]);
+      localDB.updateDataMap();
+      inputFieldOne.text = '';
+      inputFieldTwo.text = '';
+      inputFieldThree.text = '';
+      inputFieldFour.text = '';
+      return Navigator.of(context)
+          .push(MaterialPageRoute(builder: (BuildContext context) {
+        return const MainPage();
+      }));
+    }
   }
 
   @override
@@ -93,6 +127,7 @@ class _InputField extends State<InputField> {
                   hintStyle: TextStyle(fontSize: 16),
                   hintText: '',
                 ),
+                // keyboardAppearance:  ,
               ),
             ),
             Container(
@@ -120,25 +155,26 @@ class _InputField extends State<InputField> {
                   child: const Text('Submit'),
                 )),
             Container(
-                padding: const EdgeInsets.only(top: 20, left: 45, right: 45),
-                child: ElevatedButton(
-                  onPressed: () {
-                    if (inputValue.isEmpty) {
-                      Fluttertoast.showToast(
-                        msg: 'There is no value in list',
-                        gravity: ToastGravity.CENTER,
-                        fontSize: 25,
-                        backgroundColor: Colors.red,
-                      );
-                    } else {
-                      Navigator.of(context).push(
-                          MaterialPageRoute(builder: (BuildContext context) {
-                        return MainPage(inputValue);
-                      }));
-                    }
-                  },
-                  child: const Text('View Value'),
-                ))
+              padding: const EdgeInsets.only(top: 20, left: 45, right: 45),
+              child: ElevatedButton(
+                onPressed: () {
+                  if (localDB.taskInput.isEmpty) {
+                    Fluttertoast.showToast(
+                      msg: 'There is no value in list',
+                      gravity: ToastGravity.CENTER,
+                      fontSize: 25,
+                      backgroundColor: Colors.red,
+                    );
+                  } else {
+                    Navigator.of(context).push(
+                        MaterialPageRoute(builder: (BuildContext context) {
+                      return const MainPage();
+                    }));
+                  }
+                },
+                child: const Text('View Value'),
+              ),
+            )
           ],
         ),
       ),
