@@ -11,3 +11,4 @@ com.example.task2.app-mergeDebugResources-9 /home/e2infoadmin/Documents/Flutter_
 com.example.task2.app-mergeDebugResources-10 /home/e2infoadmin/Documents/Flutter_Try/task2/build/app/intermediates/incremental/debug/mergeDebugResources/stripped.dir
 com.example.task2.app-merged_res-11 /home/e2infoadmin/Documents/Flutter_Try/task2/build/app/intermediates/merged_res/debug
 com.example.task2.app-packaged_res-12 /home/e2infoadmin/Documents/Flutter_Try/task2/build/fluttertoast/intermediates/packaged_res/debug
+com.example.task2.app-packaged_res-13 /home/e2infoadmin/Documents/Flutter_Try/task2/build/path_provider_android/intermediates/packaged_res/debug
