@@ -1,4 +1,3 @@
-import 'data.dart';
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
@@ -10,23 +9,6 @@ class AllValueOrder extends StatefulWidget {
 }
 
 class _AllValueOrderState extends State<AllValueOrder> {
-  // Getting value from database
-  final _taskBox = Hive.box('taskBox');
-  TaskDataBase localDB = TaskDataBase();
-
-  Map conveTaskInput = {};
-  @override
-  void initState() {
-    if (_taskBox.get("TASKMAP") == null) {
-      localDB.createFirstDataMap();
-    } else {
-      localDB.loadDataMap();
-    }
-    super.initState();
-    print(localDB.taskMap.length);
-    print(localDB.taskMap);
-  }
-
   @override
   Widget build(BuildContext context) {
     return MaterialApp(

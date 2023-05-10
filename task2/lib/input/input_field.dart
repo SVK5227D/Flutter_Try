@@ -1,3 +1,6 @@
+import 'package:flutter/services.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+
 import '../listdata/mapList2.dart';
 import '../services/inputpass.dart';
 import 'package:task/map_value.dart';
@@ -16,25 +19,59 @@ class _InputField extends State<InputField> {
   final inputFieldTwo = TextEditingController();
   final inputFieldThree = TextEditingController();
   final inputFieldFour = TextEditingController();
-
-  // List localDB.taskInput = [];
   final _userService = UserService();
 
   addTask() async {
-    var user = UserInput();
-    user.firstName = inputFieldOne.text;
-    user.lastName = inputFieldTwo.text;
-    user.emailid = inputFieldThree.text;
-    user.mobileNumber = inputFieldFour.text;
-    await _userService.SaveUser(user);
-    Navigator.of(context)
-        .push(MaterialPageRoute(builder: (BuildContext context) {
-      return const ListMapValues();
-    }));
-    inputFieldOne.text = '';
-    inputFieldTwo.text = '';
-    inputFieldThree.text = '';
-    inputFieldFour.text = '';
+    if (inputFieldOne.text.trim().isEmpty ||
+        inputFieldTwo.text.trim().isEmpty ||
+        inputFieldThree.text.trim().isEmpty ||
+        inputFieldFour.text.trim().isEmpty) {
+      Fluttertoast.showToast(
+        msg: 'Field is Empty',
+        gravity: ToastGravity.CENTER,
+        fontSize: 25,
+        backgroundColor: Colors.red,
+      );
+    } else {
+      var user = UserInput();
+      user.firstName = inputFieldOne.text;
+      user.lastName = inputFieldTwo.text;
+      user.emailid = inputFieldThree.text;
+      user.mobileNumber = inputFieldFour.text;
+      await _userService.SaveUser(user);
+      Navigator.of(context)
+          .push(MaterialPageRoute(builder: (BuildContext context) {
+        return const ListMapValues();
+      }));
+      inputFieldOne.text = '';
+      inputFieldTwo.text = '';
+      inputFieldThree.text = '';
+      inputFieldFour.text = '';
+    }
+  }
+
+  List<UserInput> _userList = [];
+  final _userServicesList = UserService();
+
+  readValueTable() async {
+    var value = await _userServicesList.readAllUsers();
+    _userList = <UserInput>[];
+    value.forEach((userValue) {
+      setState(() {
+        var userValuelist = UserInput();
+        userValuelist.firstName = userValue['firstName'];
+        userValuelist.lastName = userValue['lastName'];
+        userValuelist.emailid = userValue['emailid'];
+        userValuelist.mobileNumber = userValue['mobileNumber'];
+        _userList.add(userValuelist);
+      });
+    });
+  }
+
+  @override
+  void initState() {
+    readValueTable();
+    super.initState();
   }
 
   @override
@@ -108,7 +145,11 @@ class _InputField extends State<InputField> {
                       TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
                   hintStyle: TextStyle(fontSize: 16),
                   hintText: '',
+                  counter: null,
                 ),
+                keyboardType: TextInputType.number,
+                inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+                maxLength: 10,
               ),
             ),
             Container(

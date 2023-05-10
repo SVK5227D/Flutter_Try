@@ -62,7 +62,6 @@ class _UpdateValue extends State<UpdateValue> {
                   labelStyle:
                       TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
                 ),
-                autofocus: true,
               ),
             ),
             Container(
@@ -77,7 +76,6 @@ class _UpdateValue extends State<UpdateValue> {
                   labelStyle:
                       TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
                 ),
-                autofocus: true,
               ),
             ),
             Container(
@@ -93,7 +91,6 @@ class _UpdateValue extends State<UpdateValue> {
                       TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
                 ),
                 keyboardType: TextInputType.emailAddress,
-                autofocus: true,
                 // inputFormatters: [FilteringTextInputFormatter.],
               ),
             ),
@@ -109,7 +106,6 @@ class _UpdateValue extends State<UpdateValue> {
                   labelStyle:
                       TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
                 ),
-                autofocus: true,
                 keyboardType: TextInputType.number,
                 inputFormatters: [FilteringTextInputFormatter.digitsOnly],
               ),
