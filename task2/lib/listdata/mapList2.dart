@@ -2,6 +2,8 @@ import '../update.dart';
 import 'package:task/map_value.dart';
 import 'package:flutter/material.dart';
 import 'package:task/services/inputpass.dart';
+// ignore_for_file: avoid_print
+
 
 class ListMapValues extends StatefulWidget {
   const ListMapValues({super.key});
@@ -36,7 +38,6 @@ class _ListMapValuesState extends State<ListMapValues> {
   }
 
   _deleteValue(userId) async {
-    print(userId);
     await _userServicesList.deleteUser(userId);
     readValueTable();
   }
@@ -44,11 +45,15 @@ class _ListMapValuesState extends State<ListMapValues> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(),
+      appBar: AppBar(
+        title: const Text('List Data'),
+        centerTitle: true,
+      ),
       body: ListView.builder(
         itemCount: _userList.length,
         itemBuilder: (context, index) {
           return Card(
+            margin: const EdgeInsets.only(top: 15, left: 15, right: 15),
             color: const Color.fromARGB(255, 165, 221, 208),
             child: ListTile(
               title: Column(
@@ -87,7 +92,7 @@ class _ListMapValuesState extends State<ListMapValues> {
                         Navigator.of(context).push(
                             MaterialPageRoute(builder: (BuildContext context) {
                           return UpdateValue(
-                            user: _userList[index],
+                            user: _userList[index]
                           );
                         }));
                       },
@@ -97,7 +102,7 @@ class _ListMapValuesState extends State<ListMapValues> {
                         print(_userList[index].id);
                         _deleteValue(_userList[index].id);
                       },
-                      icon: const Icon(Icons.delete))
+                      icon: const Icon(Icons.delete)),
                 ],
               ),
             ),

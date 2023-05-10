@@ -110,6 +110,8 @@ class _UpdateValue extends State<UpdateValue> {
                 inputFormatters: [FilteringTextInputFormatter.digitsOnly],
               ),
             ),
+            // print(_userList[index].id);
+            // print(_userList.indexOf(_userList[index]));
             Container(
               padding: const EdgeInsets.only(top: 20, left: 45, right: 45),
               child: Row(
