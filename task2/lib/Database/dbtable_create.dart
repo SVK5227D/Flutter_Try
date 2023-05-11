@@ -16,7 +16,7 @@ class DatabaseConnection {
   Future<void> _createDatabase(Database database, int version) async {
     await database.execute(
       "CREATE TABLE userInput ("
-      "ID INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,"
+      "ID INTEGER PRIMARY KEY AUTOINCREMENT,"
       "firstName TEXT,"
       "lastName TEXT,"
       "emailid TEXT,"

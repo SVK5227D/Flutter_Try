@@ -16,30 +16,6 @@ class InputField extends StatefulWidget {
 }
 
 class _InputField extends State<InputField> {
-  List<UserInput> _userList = [];
-  final _userServicesList = UserService();
-
-  readValueTable() async {
-    var value = await _userServicesList.readAllUsers();
-    _userList = <UserInput>[];
-    value.forEach((userValue) {
-      setState(() {
-        var userValuelist = UserInput();
-        userValuelist.firstName = userValue['firstName'];
-        userValuelist.lastName = userValue['lastName'];
-        userValuelist.emailid = userValue['emailid'];
-        userValuelist.mobileNumber = userValue['mobileNumber'];
-        _userList.add(userValuelist);
-      });
-    });
-  }
-
-  @override
-  void initState() {
-    readValueTable();
-    super.initState();
-  }
-
   final inputFieldOne = TextEditingController();
   final inputFieldTwo = TextEditingController();
   final inputFieldThree = TextEditingController();
@@ -188,27 +164,6 @@ class _InputField extends State<InputField> {
                 ),
               ],
             )
-            // Container(
-
-            //     padding: const EdgeInsets.only(top: 20, left: 45, right: 45),
-            // child: ElevatedButton(
-            //   onPressed: () {
-            //     addTask();
-            //   },
-            //   child: const Text('Submit'),
-            // )),
-            // Container(
-            //   padding: const EdgeInsets.only(top: 20, left: 45, right: 45),
-            // child: ElevatedButton(
-            //   onPressed: () {
-            //     Navigator.of(context)
-            //         .push(MaterialPageRoute(builder: (BuildContext context) {
-            //       return const ListMapValues();
-            //     }));
-            //   },
-            //   child: const Text('View Value'),
-            // ),
-            // )
           ],
         ),
       ),

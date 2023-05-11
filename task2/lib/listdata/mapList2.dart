@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:task/services/inputpass.dart';
 // ignore_for_file: avoid_print
 
-
 class ListMapValues extends StatefulWidget {
   const ListMapValues({super.key});
 
@@ -19,16 +18,19 @@ class _ListMapValuesState extends State<ListMapValues> {
   readValueTable() async {
     var value = await _userServicesList.readAllUsers();
     _userList = <UserInput>[];
-    value.forEach((userValue) {
-      setState(() {
-        var userValuelist = UserInput();
-        userValuelist.firstName = userValue['firstName'];
-        userValuelist.lastName = userValue['lastName'];
-        userValuelist.emailid = userValue['emailid'];
-        userValuelist.mobileNumber = userValue['mobileNumber'];
-        _userList.add(userValuelist);
+    if (value == null) {
+    } else {
+      value.forEach((userValue) {
+        setState(() {
+          var userValuelist = UserInput();
+          userValuelist.firstName = userValue['firstName'];
+          userValuelist.lastName = userValue['lastName'];
+          userValuelist.emailid = userValue['emailid'];
+          userValuelist.mobileNumber = userValue['mobileNumber'];
+          _userList.add(userValuelist);
+        });
       });
-    });
+    }
   }
 
   @override
@@ -91,9 +93,7 @@ class _ListMapValuesState extends State<ListMapValues> {
                       onPressed: () {
                         Navigator.of(context).push(
                             MaterialPageRoute(builder: (BuildContext context) {
-                          return UpdateValue(
-                            user: _userList[index]
-                          );
+                          return UpdateValue(user: _userList[index]);
                         }));
                       },
                       icon: const Icon(Icons.edit)),

@@ -20,9 +20,6 @@ class OperationValue {
   insertData(table, data) async {
     print(data);
     var connection = await database;
-    // return await connection?.execute(
-    //     "INSERT INTO $table ('id','firstName', 'lastName', 'emailid', 'mobileNumber')values (1, ?, ?, ?, ?)"
-    //     );
     return await connection?.insert(table, data);
   }
 
@@ -35,6 +32,7 @@ class OperationValue {
 
   //Update User
   updateData(table, data) async {
+    print("Update function called");
     print(data);
     var connection = await database;
     return await connection
