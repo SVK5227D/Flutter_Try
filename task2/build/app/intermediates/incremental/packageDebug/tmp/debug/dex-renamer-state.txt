@@ -1,4 +1,4 @@
-#Wed May 10 17:59:47 IST 2023
-base.0=/home/e2infoadmin/Documents/Flutter_Try/task2/build/app/intermediates/dex/debug/mergeDexDebug/classes.dex
+#Thu May 11 08:00:48 IST 2023
+base.0=C\:\\Users\\svino\\OneDrive\\Documents\\Flutter_Try\\task2\\build\\app\\intermediates\\dex\\debug\\mergeDexDebug\\classes.dex
 renamed.0=classes.dex
 path.0=classes.dex
